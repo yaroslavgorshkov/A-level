@@ -1,4 +1,4 @@
-public class task1 {
+public class Task1 {
     public static void main(String[] args) {
         int pointACoordinateX = 10;
         int pointACoordinateY = 8;
