@@ -19,7 +19,7 @@ public class Task1 {
         System.out.println("Площадь треугольника ABC = " + result + " квадратных условных единиц.");
     }
 
-    public static double findAreaOfTriangle (int cordAX, int cordAY, int cordBX, int cordBY, int cordCX, int cordCY) {
+    public static double findAreaOfTriangle (int cordAX, int cordAY, int cordBX, int cordBY, int cordCX, int cordCY){
         double triangleArea = 0.5*((cordBX - cordAX)*(cordCY - cordAY) - (cordCX - cordAX) * (cordBY - cordAY));
         return (triangleArea >= 0 ? triangleArea : -triangleArea);
     }
