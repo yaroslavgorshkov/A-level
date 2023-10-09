@@ -9,12 +9,10 @@ public class Task1 {
         String string = scanner.nextLine();
         String stringWithoutSpaces = deleteSpacesFromStr(string);
         boolean isPalindrome = isStringPalindrome(stringWithoutSpaces);
-        if (isPalindrome)
-        {
+        if (isPalindrome) {
             System.out.println("Строка - палиндром!");
         }
-        else
-        {
+        else {
             System.out.println("Строка - не палиндром!");
         }
     }
@@ -22,21 +20,17 @@ public class Task1 {
     public static String deleteSpacesFromStr(String string)
     {
         String stringWithoutSpaces = "";
-        for(int i = 0; i < string.length(); i ++)
-        {
-            if(string.charAt(i)!=' ')
-            {
+        for(int i = 0; i < string.length(); i ++) {
+            if(string.charAt(i)!=' ') {
                 stringWithoutSpaces += string.charAt(i);
             }
         }
         return stringWithoutSpaces;
     }
 
-    public static boolean isStringPalindrome(String string)
-    {
+    public static boolean isStringPalindrome(String string) {
         String reversedString = "";
-        for(int i = string.length()-1; i >= 0; i--)
-        {
+        for(int i = string.length()-1; i >= 0; i--) {
             reversedString += string.charAt(i);
         }
         return reversedString.equals(string);

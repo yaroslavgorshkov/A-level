@@ -10,17 +10,16 @@ public class Task2 {
         System.out.println("Количество слов в строке = " + result);
     }
 
-    public static int wordsInString(String string)
-    {
-        if (string.isEmpty())
-        {
+    public static int wordsInString(String string) {
+        if (string.isEmpty()) {
             return 0;
         }
         int result = 1;
-        for(int i = 0; i < string.length()-1; i ++)
-        {
-            if(string.charAt(i) == ' ' && string.charAt(i+1) != ' ')
-            {
+        if (string.charAt(0) == ' ') {
+            result--;
+        }
+        for(int i = 0; i < string.length()-1; i ++) {
+            if(string.charAt(i) == ' ' && string.charAt(i+1) != ' ') {
                 result++;
             }
         }

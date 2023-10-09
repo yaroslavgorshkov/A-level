@@ -10,23 +10,18 @@ public class Task3 {
         guessTheNumber(computerNumber);
     }
 
-    public static void guessTheNumber(int computerNumber)
-    {
+    public static void guessTheNumber(int computerNumber) {
         System.out.println("Введите число: ");
         Scanner scanner = new Scanner(System.in);
-        while(true)
-        {
+        while(true) {
             int myNumber = scanner.nextInt();
-            if (myNumber > computerNumber)
-            {
+            if (myNumber > computerNumber) {
                 System.out.println("Много! Попробуй еще раз!");
             }
-            else if(myNumber < computerNumber)
-            {
+            else if(myNumber < computerNumber) {
                 System.out.println("Мало! Попробуй еще раз!");
             }
-            else
-            {
+            else {
                 System.out.println("Угадал!");
                 break;
             }

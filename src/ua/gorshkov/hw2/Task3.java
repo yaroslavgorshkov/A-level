@@ -16,16 +16,13 @@ public class Task3 {
         int bModulus = (b<=0 ? b : -b);
         int cModulus = (c<=0 ? c : -c);
 
-        if (aModulus >= bModulus)
-        {
+        if (aModulus >= bModulus) {
             return a;
         }
-        else if (bModulus >= cModulus)
-        {
+        else if (bModulus >= cModulus) {
             return b;
         }
-        else
-        {
+        else {
             return c;
         }
     }
