@@ -10,8 +10,7 @@ public class Task3 {
         System.out.println("Меньшее по модулю число = " + result);
     }
 
-    public static int smallerInModulus(int a, int b, int c)
-    {
+    public static int smallerInModulus(int a, int b, int c) {
         int aModulus = (a<=0 ? a : -a);
         int bModulus = (b<=0 ? b : -b);
         int cModulus = (c<=0 ? c : -c);
