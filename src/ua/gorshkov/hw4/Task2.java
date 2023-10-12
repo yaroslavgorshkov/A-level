@@ -1,13 +1,11 @@
 package ua.gorshkov.hw4;
 
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.Arrays;
 
 public class Task2 {
     public static void main(String[] args) {
-        int[] integerArray = new int[20];
+        int[] integerArray = new int[1000];
         fillArray(integerArray);
-        System.out.println(Arrays.toString(integerArray));
         int result = numberOfPrimeNumbers(integerArray);
         System.out.println("Kоличество простых чисел в integerArray = " + result);
     }
