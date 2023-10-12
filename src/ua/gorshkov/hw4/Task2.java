@@ -1,11 +1,13 @@
 package ua.gorshkov.hw4;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Arrays;
 
 public class Task2 {
     public static void main(String[] args) {
-        int[] integerArray = new int[1000];
+        int[] integerArray = new int[20];
         fillArray(integerArray);
+        System.out.println(Arrays.toString(integerArray));
         int result = numberOfPrimeNumbers(integerArray);
         System.out.println("Kоличество простых чисел в integerArray = " + result);
     }
@@ -15,6 +17,7 @@ public class Task2 {
             arrayForFilling[i] = ThreadLocalRandom.current().nextInt(1,21);
         }
     }
+
 
     public static int numberOfPrimeNumbers(int[] arrayForCountPrimes) {
         int result = 0;
@@ -27,22 +30,14 @@ public class Task2 {
     }
 
     public static boolean isPrime(int number) {
-        if (number <= 1) {
-            return false;
-        }
-        if (number <= 3) {
-            return true;
-        }
-        if (number % 2 == 0 || number % 3 == 0) {
-            return false;
-        }
-
-        for (int i = 5; i * i <= number; i += 6) {
-            if (number % i == 0 || number % (i + 2) == 0) {
-                return false;
+        int dividers = 0;
+        for (int i = 1; i <= number; i++ )
+        {
+            if (number%i==0)
+            {
+                dividers++;
             }
         }
-
-        return true;
+        return dividers == 2;
     }
 }
