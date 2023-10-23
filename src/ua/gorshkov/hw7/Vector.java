@@ -17,28 +17,28 @@ public class Vector {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
     }
 
-    public static Vector vectorProduct(Vector vector1, Vector vector2) {
-        return new Vector(vector1.y * vector2.z - vector1.z * vector2.y,
-                vector1.z * vector2.x - vector1.x * vector2.z,
-                vector1.x * vector2.y - vector1.y * vector2.x);
+    public Vector vectorProduct(Vector otherVector) {
+        return new Vector(this.y * otherVector.z - this.z * otherVector.y,
+                this.z * otherVector.x - this.x * otherVector.z,
+                this.x * otherVector.y - this.y * otherVector.x);
     }
 
-    public static double cosBetweenVectors(Vector vector1, Vector vector2) {
-        return ((vector1.x * vector2.x + vector1.y * vector2.y + vector1.z * vector2.z)
-                / (Math.sqrt(Math.pow(vector1.x, 2) + Math.pow(vector1.y, 2) + Math.pow(vector1.z, 2))
-                * Math.sqrt(Math.pow(vector2.x, 2) + Math.pow(vector2.y, 2) + Math.pow(vector2.z, 2))));
+    public double cosBetweenVectors(Vector otherVector) {
+        return ((this.x * otherVector.x + this.y * otherVector.y + this.z * otherVector.z)
+                / (Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2))
+                * Math.sqrt(Math.pow(otherVector.x, 2) + Math.pow(otherVector.y, 2) + Math.pow(otherVector.z, 2))));
     }
 
-    public static Vector sum(Vector vector1, Vector vector2) {
-        return new Vector(vector1.x + vector2.x,
-                vector1.y + vector2.y,
-                vector1.z + vector2.z);
+    public Vector sum(Vector otherVector) {
+        return new Vector(this.x + otherVector.x,
+                this.y + otherVector.y,
+                this.z + otherVector.z);
     }
 
-    public static Vector dif(Vector vector1, Vector vector2) {
-        return new Vector(vector1.x - vector2.x,
-                vector1.y - vector2.y,
-                vector1.z - vector2.z);
+    public Vector dif(Vector otherVector) {
+        return new Vector(this.x - otherVector.x,
+                this.y - otherVector.y,
+                this.z - otherVector.z);
     }
 
     public static Vector[] getRandomVectorArray(int n) {
@@ -69,13 +69,13 @@ public class Vector {
         System.out.println("Length of a = " + a.length());
         System.out.println("Length of b = " + b.length());
         System.out.println();
-        Vector productVector = vectorProduct(a, b);
+        Vector productVector = a.vectorProduct(b);
         System.out.println("Product vector of a and b is " + productVector);
         System.out.println();
-        System.out.println("cos between a and b = " + cosBetweenVectors(a, b));
+        System.out.println("cos between a and b = " + a.cosBetweenVectors(b));
         System.out.println();
-        Vector sumVector = sum(a, b);
-        Vector difVector = dif(a, b);
+        Vector sumVector = a.sum(b);
+        Vector difVector = a.dif(b);
         System.out.println("Summa of a and b = " + sumVector);
         System.out.println("Different of a and b = " + difVector);
         System.out.println();
