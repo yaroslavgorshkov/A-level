@@ -8,7 +8,7 @@ public class Main {
         int biggestTimeOfSleeping = getBiggestSleepingTime(dog, cat, bee);
         System.out.println("Biggest sleeping time = " + biggestTimeOfSleeping);
     }
-    public static int getBiggestSleepingTime(Animal first, Animal second, Animal third) {
+    private static int getBiggestSleepingTime(Animal first, Animal second, Animal third) {
         int firstHoursOfSleeping = first.getHoursOfSleeping();
         int secondHoursOfSleeping = second.getHoursOfSleeping();
         int thirdHoursOfSleeping = third.getHoursOfSleeping();
