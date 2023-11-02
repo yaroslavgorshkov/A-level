@@ -5,7 +5,17 @@ public class Main {
         Animal dog = new Animal("meat", 10);
         Animal cat = new Animal("mouse", 12);
         Animal bee = new Animal("honey", 1);
-        int biggestTimeOfSleeping = Animal.getBiggestSleepingTime(dog, cat, bee);
+        int biggestTimeOfSleeping = getBiggestSleepingTime(dog, cat, bee);
         System.out.println("Biggest sleeping time = " + biggestTimeOfSleeping);
     }
+    public static int getBiggestSleepingTime(Animal first, Animal second, Animal third) {
+        int firstHoursOfSleeping = first.getHoursOfSleeping();
+        int secondHoursOfSleeping = second.getHoursOfSleeping();
+        int thirdHoursOfSleeping = third.getHoursOfSleeping();
+
+        return (firstHoursOfSleeping>=secondHoursOfSleeping
+                && firstHoursOfSleeping>=thirdHoursOfSleeping )
+                ? firstHoursOfSleeping : Math.max(secondHoursOfSleeping, thirdHoursOfSleeping);
+    }
+
 }
