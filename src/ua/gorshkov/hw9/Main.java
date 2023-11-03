@@ -2,20 +2,18 @@ package ua.gorshkov.hw9;
 
 public class Main {
     public static void main(String[] args) {
-        Animal dog = new Animal("meat", 10);
-        Animal cat = new Animal("mouse", 12);
-        Animal bee = new Animal("honey", 1);
-        int biggestTimeOfSleeping = getBiggestSleepingTime(dog, cat, bee);
-        System.out.println("Biggest sleeping time = " + biggestTimeOfSleeping);
-    }
-    public static int getBiggestSleepingTime(Animal first, Animal second, Animal third) {
-        int firstHoursOfSleeping = first.getHoursOfSleeping();
-        int secondHoursOfSleeping = second.getHoursOfSleeping();
-        int thirdHoursOfSleeping = third.getHoursOfSleeping();
+        Circle circle = new Circle(5);
+        Square square = new Square(10);
+        Triangle triangle = new Triangle(8,8, 0.5);
 
-        return (firstHoursOfSleeping>=secondHoursOfSleeping
-                && firstHoursOfSleeping>=thirdHoursOfSleeping )
-                ? firstHoursOfSleeping : Math.max(secondHoursOfSleeping, thirdHoursOfSleeping);
-    }
+        System.out.println("Circle perimeter = " + circle.perimeter() + ", Circle area = " + circle.area());
+        System.out.println("Square perimeter = " + square.perimeter() + ", Square area = " + square.area());
+        System.out.println("Triangle perimeter = " + triangle.perimeter() + ", Triangle area = " + triangle.area());
 
+        double areaOfTriangleByHeronsFormula = triangle.area(3,4,5);
+        System.out.println("Area of triangle by Herons formula = " + areaOfTriangleByHeronsFormula);
+        double areaOfTriangleByABaseHeightProduct = triangle.area(10,15);
+        System.out.println("Area of triangle by Herons formula = " + areaOfTriangleByABaseHeightProduct);
+
+    }
 }
