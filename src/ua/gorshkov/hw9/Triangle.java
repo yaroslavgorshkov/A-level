@@ -6,15 +6,6 @@ public class Triangle extends Figure {
     private double angleValueInRadians;
 
     public Triangle(double firstSideLength, double secondSideLength, double angleValueInRadians) {
-        if (firstSideLength < 0){
-            throw new InvalidValueException("Side length cannot be negative!");
-        }
-        if (secondSideLength < 0){
-            throw new InvalidValueException("Side length cannot be negative!");
-        }
-        if (angleValueInRadians < 0 || angleValueInRadians > Math.PI){
-            throw new InvalidValueException("Angle value cannot be negative or bigger than PI!");
-        }
         this.firstSideLength = firstSideLength;
         this.secondSideLength = secondSideLength;
         this.angleValueInRadians = angleValueInRadians;
@@ -36,15 +27,6 @@ public class Triangle extends Figure {
     }
 
     public double area(double firstSideLength, double secondSideLength, double thirdSideLength) {
-        if (firstSideLength < 0){
-            throw new InvalidValueException("Side length cannot be negative!");
-        }
-        if (secondSideLength < 0){
-            throw new InvalidValueException("Side length cannot be negative!");
-        }
-        if (thirdSideLength < 0){
-            throw new InvalidValueException("Side length cannot be negative!");
-        }
         double halfPerimeter = countHalfPerimeter(firstSideLength, secondSideLength, thirdSideLength);
         return Math.sqrt(halfPerimeter * (halfPerimeter - firstSideLength) * (halfPerimeter - secondSideLength) *
                 (halfPerimeter - thirdSideLength));
@@ -55,12 +37,6 @@ public class Triangle extends Figure {
     }
 
     public double area(double secondSideLength, double height) {
-        if (secondSideLength < 0){
-            throw new InvalidValueException("Side length cannot be negative!");
-        }
-        if (height < 0){
-            throw new InvalidValueException("Height cannot be negative!");
-        }
         return 0.5 * secondSideLength * height;
     }
 }
