@@ -1,3 +1,4 @@
+/*
 package ua.gorshkov.hw11;
 
 public class ArrayList<T> {
@@ -31,3 +32,4 @@ public class ArrayList<T> {
     }
 }
 
+*/
