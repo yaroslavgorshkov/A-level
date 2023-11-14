@@ -3,7 +3,7 @@ package ua.gorshkov.hw10;
 public class Square extends Figure{
     private double sideLength;
 
-    public Square(double sideLength) {
+    public Square(double sideLength) throws InvalidValueException {
         if (sideLength < 0) {
             throw new InvalidValueException("Side length cannot be negative!");
         }

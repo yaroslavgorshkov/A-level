@@ -2,7 +2,7 @@ package ua.gorshkov.hw10;
 
 public class Circle extends Figure{
     private double radius;
-    public Circle(double radius) {
+    public Circle(double radius) throws InvalidValueException {
         if (radius < 0){
             throw new InvalidValueException("Radius cannot be negative!");
         }
