@@ -41,7 +41,7 @@ public class Triangle extends Figure {
         return 0.5 * firstSideLength * secondSideLength * Math.sin(angleValueInRadians);
     }
 
-    public double area(double firstSideLength, double secondSideLength, double thirdSideLength) {
+    public double area(double thirdSideLength) {
         try {
             if (firstSideLength + secondSideLength <= thirdSideLength
                     || thirdSideLength + secondSideLength <= firstSideLength
@@ -49,8 +49,8 @@ public class Triangle extends Figure {
                 throw new ImpossibleTriangleException("Impossible triangle!");
             }
 
-            if (firstSideLength < 0 || secondSideLength < 0 || thirdSideLength < 0) {
-                throw new InvalidValueException("Side length cannot be negative!");
+            if (thirdSideLength < 0) {
+                throw new InvalidValueException("Third side length cannot be negative!");
             }
 
             double halfPerimeter = countHalfPerimeter(firstSideLength, secondSideLength, thirdSideLength);

@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Circle circle = new Circle(12);
         Square square = new Square(8);
-        Triangle triangle = new Triangle(3, 4, 3.14);
+        Triangle triangle = new Triangle(3, 4, 1.57);
 
         System.out.println("Circle perimeter = " + circle.perimeter() + ", Circle area = " + circle.area());
         System.out.println("Square perimeter = " + square.perimeter() + ", Square area = " + square.area());
@@ -12,7 +12,7 @@ public class Main {
 
         System.out.println();
         System.out.println("Calculating area by Heron's formula. First side length = " + 3 + ", second = " + 4 + ", third = " + 5);
-        double areaOfTriangleByHeronsFormula = triangle.area(3, 4, 5);
+        double areaOfTriangleByHeronsFormula = triangle.area(5);
         System.out.println("Area of triangle by Herons formula = " + areaOfTriangleByHeronsFormula);
 
         System.out.println();
