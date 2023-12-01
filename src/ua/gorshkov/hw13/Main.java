@@ -21,45 +21,40 @@ public class Main {
 
         List<Figure> figures = new ArrayList<>(Arrays.asList(circle1, circle2, square1, square2, triangle1, triangle2));
 
-        Figure figureLargerByGivenDifferenceInAreaForMinimum = findFigure(figures, 57);
+        double difference = 58;
+        Optional<Figure> figureLargerByGivenDifferenceInAreaForMinimum = findFigure(figures, difference);
 
-        System.out.println("The figure that is larger by a given difference in area for the minimum has = "
-                + figureLargerByGivenDifferenceInAreaForMinimum.area() + " area.");
+        if (figureLargerByGivenDifferenceInAreaForMinimum.isPresent()) {
+            System.out.println("The figure that is larger by a given difference in area for the minimum has = "
+                    + figureLargerByGivenDifferenceInAreaForMinimum.get().area() + " area.");
+        } else {
+            System.out.println("There are not figure in list which area is bigger than minimum figure`s area on " + difference);
+        }
 
-        Figure figureWithAnAreaTwiceThePerimeter = findFigureWithAnAreaTwiceThePerimeter(figures);
-        System.out.println("The figure with an area twice the perimeter has = "
-                + figureWithAnAreaTwiceThePerimeter.area() + " area and "
-                + figureWithAnAreaTwiceThePerimeter.perimeter() + " perimeter.");
+        Optional <Figure> figureWithAnAreaTwiceThePerimeter = findFigureWithAnAreaTwiceThePerimeter(figures);
+        if (figureWithAnAreaTwiceThePerimeter.isPresent()) {
+            System.out.println("The figure with an area twice the perimeter has = "
+                    + figureWithAnAreaTwiceThePerimeter.get().area() + " area and "
+                    + figureWithAnAreaTwiceThePerimeter.get().perimeter() + " perimeter.");
+        } else {
+            System.out.println("There are not figure which area is twice the perimeter in list");
+        }
+
     }
 
-    private static Figure findFigure(List<Figure> figures, double difference) {
+    private static Optional<Figure> findFigure(List<Figure> figures, double difference) {
         Comparator<Figure> figureAreaComparator = (o1, o2) -> Double.compare(o1.area(), o2.area());
 
         Optional<Figure> minAreaFigure = figures.stream().min(figureAreaComparator);
 
-        Optional<Figure> differenceElement = figures.stream()
+        return figures.stream()
                 .filter(element -> element.area() - difference == minAreaFigure.get().area())
                 .findFirst();
-
-        if (differenceElement.isPresent()) {
-            return differenceElement.get();
-        } else {
-            System.out.println("Error!");
-            System.exit(1);
-            return null;
-        }
     }
 
-    private static Figure findFigureWithAnAreaTwiceThePerimeter(List<Figure> figures) {
-        Optional<Figure> result = figures.stream()
+    private static Optional<Figure> findFigureWithAnAreaTwiceThePerimeter(List<Figure> figures) {
+        return figures.stream()
                 .filter(element -> element.area()/2==element.perimeter())
                 .findFirst();
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            System.out.println("Error!");
-            System.exit(1);
-            return null;
-        }
     }
 }
