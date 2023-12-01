@@ -1,0 +1,24 @@
+name : "Mikita"
+secondName : "Goncharov"
+salary : 10000
+age : 30
+
+name : "Kolya"
+secondName : "Ivanov"
+salary : 10000
+age : 31
+
+name : "Ivan"
+secondName : "Shchevtchenko"
+salary : 100000
+age : 32
+
+name : "Vitaliy"
+secondName : "Klitchko"
+salary : 15000000
+age : 33
+
+name : "Vladimir"
+secondName : "Zelenskiy"
+salary : 20000000
+age : 22

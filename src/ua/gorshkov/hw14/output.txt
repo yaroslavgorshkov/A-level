@@ -1,0 +1,22 @@
+User List:
+User{name='Mikita', secondName='Goncharov', salary=10000.0, age=30}
+User{name='Kolya', secondName='Ivanov', salary=10000.0, age=31}
+User{name='Ivan', secondName='Shchevtchenko', salary=100000.0, age=32}
+User{name='Vitaliy', secondName='Klitchko', salary=1.5E7, age=33}
+User{name='Vladimir', secondName='Zelenskiy', salary=2.0E7, age=22}
+
+There are no users with name starts with "A"
+
+Sorted user List:
+User{name='Ivan', secondName='Shchevtchenko', salary=100000.0, age=32}
+User{name='Kolya', secondName='Ivanov', salary=10000.0, age=31}
+User{name='Mikita', secondName='Goncharov', salary=10000.0, age=30}
+User{name='Vitaliy', secondName='Klitchko', salary=1.5E7, age=33}
+User{name='Vladimir', secondName='Zelenskiy', salary=2.0E7, age=22}
+
+List Of Users With Min Salary:
+User{name='Mikita', secondName='Goncharov', salary=10000.0, age=30}
+User{name='Kolya', secondName='Ivanov', salary=10000.0, age=31}
+
+Total salary = 3.512E7
+Difference in salary between the youngest and the oldest user is 5000000.0
