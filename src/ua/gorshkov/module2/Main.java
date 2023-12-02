@@ -40,7 +40,7 @@ public class Main {
 
         double averageCostOfProducts = countAverageCostOfProducts(productList);
         randomAccessFile.writeBytes("Average cost of products: " +
-                new BigDecimal(averageCostOfProducts).setScale(2, RoundingMode.HALF_UP) + "\n\n");
+                new BigDecimal(averageCostOfProducts).setScale(1, RoundingMode.HALF_UP) + "\n\n");
 
         List<Product> sortedProductListInDescendingOrderByPrice = sortProductsByPriceInDescendingOrder(productList);
         randomAccessFile.writeBytes("List of sorted products by price in descending:\n");
@@ -48,6 +48,9 @@ public class Main {
 
         double totalCostOfProducts = countTotalCostOfProducts(productList);
         randomAccessFile.writeBytes("Total cost of products: " + totalCostOfProducts + "\n");
+
+        scanner.close();
+        randomAccessFile.close();
     }
 
     public static void writeListOfProducts(List<Product> productList, RandomAccessFile randomAccessFile) throws IOException {

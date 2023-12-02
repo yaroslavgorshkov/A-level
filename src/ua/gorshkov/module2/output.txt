@@ -15,7 +15,7 @@ There are 2 product kinds in this list ^^^
 
 Total amount of food in the refrigerator: 29
 
-Average cost of products: 1.20
+Average cost of products: 1.2
 
 List of sorted products by price in descending:
 Product{name='Chicken', capacity=2, costOfOne=5.0}
