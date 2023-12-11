@@ -1,0 +1,29 @@
+List of products:
+Product{name='Milk', capacity=2, costOfOne=1.5}
+Product{name='Eggs', capacity=10, costOfOne=0.2}
+Product{name='Cucumbers', capacity=5, costOfOne=0.8}
+Product{name='Bread', capacity=1, costOfOne=1.0}
+Product{name='Cheese', capacity=3, costOfOne=2.5}
+Product{name='Apples', capacity=6, costOfOne=1.2}
+Product{name='Chicken', capacity=2, costOfOne=5.0}
+
+List of sorted products which capacity higher than 5:
+Product{name='Eggs', capacity=10, costOfOne=0.2}
+Product{name='Apples', capacity=6, costOfOne=1.2}
+
+There are 2 product kinds in this list ^^^
+
+Total amount of food in the refrigerator: 29
+
+Average cost of products: 1.2
+
+List of sorted products by price in descending:
+Product{name='Chicken', capacity=2, costOfOne=5.0}
+Product{name='Cheese', capacity=3, costOfOne=2.5}
+Product{name='Apples', capacity=6, costOfOne=1.2}
+Product{name='Cucumbers', capacity=5, costOfOne=0.8}
+Product{name='Milk', capacity=2, costOfOne=1.5}
+Product{name='Eggs', capacity=10, costOfOne=0.2}
+Product{name='Bread', capacity=1, costOfOne=1.0}
+
+Total cost of products: 34.7
