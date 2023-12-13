@@ -13,16 +13,11 @@ public class PersonFactory {
 
     public void printFields(Object obj) throws NoSuchFieldException, IllegalAccessException {
         Person person = (Person) obj;
-        Field nameField = Person.class.getDeclaredField("name");
-        nameField.setAccessible(true);
-        Field ageField = Person.class.getDeclaredField("age");
-        ageField.setAccessible(true);
-        Field addressField = Person.class.getDeclaredField("address");
-        addressField.setAccessible(true);
-        System.out.println("Person:" +
-                "\nAge: " + nameField.get(person) + ", class: " + nameField.get(person).getClass() +
-                "\nAge: " + ageField.get(person) + ", class: " + ageField.get(person).getClass() +
-                "\nAddress: " + addressField.get(person) + ", class: " + addressField.get(person).getClass() +
-                "\n");
+        Field[] fields = person.getClass().getDeclaredFields();
+        System.out.println("Person:");
+        for (Field field : fields) {
+            field.setAccessible(true);
+            System.out.println(field.getName() + ": " + field.get(person) + ", class: " + field.get(person).getClass());
+        }
     }
 }
