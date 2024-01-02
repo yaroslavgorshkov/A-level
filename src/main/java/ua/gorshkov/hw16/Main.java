@@ -1,3 +1,4 @@
+/*
 package ua.gorshkov.hw16;
 
 import javax.sound.midi.Soundbank;
@@ -70,3 +71,4 @@ public class Main {
     }
 
 }
+*/
