@@ -4,7 +4,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public final class  MySessionManager {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public final class ConnectionsManager {
     private static final SessionFactory sessionFactory;
 
     static {
@@ -15,5 +19,10 @@ public final class  MySessionManager {
 
     public static Session getSession() {
         return sessionFactory.openSession();
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+                "postgres", "20052005");
     }
 }

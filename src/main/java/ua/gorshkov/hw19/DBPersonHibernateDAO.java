@@ -1,14 +1,15 @@
 package ua.gorshkov.hw19;
 import org.hibernate.Session;
 import java.util.List;
+import java.util.Optional;
 
-public class DBPersonDAO implements DAO<Person> {
+public class DBPersonHibernateDAO implements DAO<Person> {
     @Override
     public Person save(Person obj) {
-        try(Session session = MySessionManager.getSession()) {
-            session.beginTransaction();
-            session.save(obj);
+        try(Session session = ConnectionsManager.getSession()) {
             try {
+                session.beginTransaction();
+                session.save(obj);
                 session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -20,10 +21,10 @@ public class DBPersonDAO implements DAO<Person> {
 
     @Override
     public Person update(Person obj) {
-        try(Session session = MySessionManager.getSession()) {
-            session.beginTransaction();
-            session.update(obj);
+        try(Session session = ConnectionsManager.getSession()) {
             try {
+                session.beginTransaction();
+                session.update(obj);
                 session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -35,10 +36,10 @@ public class DBPersonDAO implements DAO<Person> {
 
     @Override
     public void delete(Person obj) {
-        try(Session session = MySessionManager.getSession()) {
-            session.beginTransaction();
-            session.delete(obj);
+        try(Session session = ConnectionsManager.getSession()) {
             try {
+                session.beginTransaction();
+                session.delete(obj);
                 session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();
@@ -48,13 +49,14 @@ public class DBPersonDAO implements DAO<Person> {
     }
 
     @Override
-    public Person get(Long id) {
-        Person obj;
-        try(Session session = MySessionManager.getSession()) {
-            session.beginTransaction();
-            obj = session.get(Person.class, id);
+    public Optional<Person> get(Long id) {
+        Optional<Person> obj;
+        try (Session session = ConnectionsManager.getSession()) {
             try {
+                session.beginTransaction();
+                Person person = session.get(Person.class, id);
                 session.getTransaction().commit();
+                obj = Optional.ofNullable(person);
             } catch (Exception e) {
                 session.getTransaction().rollback();
                 throw new RuntimeException(e);
@@ -62,15 +64,14 @@ public class DBPersonDAO implements DAO<Person> {
         }
         return obj;
     }
-
     @Override
     public List<Person> getAll() {
         List<Person> personList;
         String selectAllQuery = "select p from Person p";
-        try(Session session = MySessionManager.getSession()) {
-            session.beginTransaction();
-            personList = session.createQuery(selectAllQuery, Person.class).getResultList();
+        try(Session session = ConnectionsManager.getSession()) {
             try {
+                session.beginTransaction();
+                personList = session.createQuery(selectAllQuery, Person.class).getResultList();
                 session.getTransaction().commit();
             } catch (Exception e) {
                 session.getTransaction().rollback();

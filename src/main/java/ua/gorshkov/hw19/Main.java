@@ -1,6 +1,7 @@
 package ua.gorshkov.hw19;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,12 +16,20 @@ public class Main {
         person2.setSalary(2000);
         personDBManager.save(person2);
 
-        Person person3 = personDBManager.get(15L);
-        person3.setSalary(15000);
-        personDBManager.update(person3);
+        Optional<Person> person3Optional = personDBManager.get(1L);
+        if (person3Optional.isPresent()) {
+            person3Optional.get().setSalary(15000);
+            personDBManager.update(person3Optional.get());
+        } else {
+            System.out.println("Person3 is null! You cannot do anything!");
+        }
 
-        Person person4 = personDBManager.get(16L);
-        personDBManager.delete(person4);
+        Optional<Person> person4Optional = personDBManager.get(2L);
+        if (person4Optional.isPresent()) {
+            personDBManager.delete(person4Optional.get());
+        } else {
+            System.out.println("Person4 is null! You cannot do anything!");
+        }
 
         List<Person> personList = personDBManager.getAll();
         System.out.println(personList);
