@@ -1,9 +1,11 @@
 package ua.gorshkov.moduleDB;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@Getter
+@ToString
 @Entity
 @Table(name = "operations")
 public class Operation {
@@ -24,4 +26,28 @@ public class Operation {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_ID")
     private Account account;
+
+    public void setAmountOfMoney(Double amountOfMoney) {
+        this.amountOfMoney = SetterClass.setDouble("Amount of money = ",
+                DoubleValidationStrategies.GREATER_OR_EQUAL_ZERO);
+    }
+
+    public void setCategory(String category) {
+        this.category = SetterClass.setString("Category = ",
+                StringValidationStrategies.CAPITALIZATION,
+                StringValidationStrategies.NOT_EMPTY
+        );
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setOperationCategory(OperationCategories operationCategory) {
+        this.operationCategory = operationCategory;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

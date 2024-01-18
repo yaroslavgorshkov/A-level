@@ -12,17 +12,17 @@ public class Main {
             entityManager.getTransaction().begin();
 
             User user1 = new User();
-            user1.setName("Yarik");
-            user1.setSurname("Gorshik");
+            user1.setName();
+            user1.setSurname();
 
             Account account1 = new Account();
-            account1.setBankCardNumber("7628763367312637");
-            account1.setStartMoneyAmount(50000.0);
+            account1.setBankCardNumber();
+            account1.setStartMoneyAmount();
             account1.setUser(user1);
 
             Account account2 = new Account();
-            account2.setBankCardNumber("343323367312637");
-            account2.setStartMoneyAmount(150000.0);
+            account2.setBankCardNumber();
+            account2.setStartMoneyAmount();
             account2.setUser(user1);
 
             Operation operation1 = new Operation();
