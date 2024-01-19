@@ -1,8 +1,10 @@
-package ua.gorshkov.moduleDB;
+package ua.gorshkov.moduleDB.Entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import ua.gorshkov.moduleDB.Validation.SetterClass;
+import ua.gorshkov.moduleDB.Validation.StringValidationStrategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Account> accountList = new ArrayList<>();
 
     public void setName() {
@@ -35,11 +37,14 @@ public class User {
     }
 
     public void setSurname() {
-        System.out.print("User surname = ");
         this.surname = SetterClass.setString("User surname = ",
                 StringValidationStrategies.ALPHABETIC_ONLY,
                 StringValidationStrategies.CAPITALIZATION,
                 StringValidationStrategies.WITHOUT_PASSES,
                 StringValidationStrategies.NOT_EMPTY);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

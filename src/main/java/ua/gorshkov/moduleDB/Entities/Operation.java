@@ -1,8 +1,12 @@
-package ua.gorshkov.moduleDB;
+package ua.gorshkov.moduleDB.Entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import ua.gorshkov.moduleDB.Validation.DoubleValidationStrategies;
+import ua.gorshkov.moduleDB.Entities.Enums.OperationCategories;
+import ua.gorshkov.moduleDB.Validation.SetterClass;
+import ua.gorshkov.moduleDB.Validation.StringValidationStrategies;
 
 @Getter
 @ToString
@@ -27,12 +31,12 @@ public class Operation {
     @JoinColumn(name = "account_ID")
     private Account account;
 
-    public void setAmountOfMoney(Double amountOfMoney) {
+    public void setAmountOfMoney() {
         this.amountOfMoney = SetterClass.setDouble("Amount of money = ",
                 DoubleValidationStrategies.GREATER_OR_EQUAL_ZERO);
     }
 
-    public void setCategory(String category) {
+    public void setCategory() {
         this.category = SetterClass.setString("Category = ",
                 StringValidationStrategies.CAPITALIZATION,
                 StringValidationStrategies.NOT_EMPTY
@@ -43,8 +47,9 @@ public class Operation {
         this.id = id;
     }
 
-    public void setOperationCategory(OperationCategories operationCategory) {
-        this.operationCategory = operationCategory;
+    public void setOperationCategory() {
+        this.operationCategory =
+                SetterClass.setOperationCategory("Set operation category: (0 - expense, 1 - income");
     }
 
     public void setAccount(Account account) {

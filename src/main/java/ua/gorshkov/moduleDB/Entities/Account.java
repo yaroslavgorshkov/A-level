@@ -1,8 +1,11 @@
-package ua.gorshkov.moduleDB;
+package ua.gorshkov.moduleDB.Entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import ua.gorshkov.moduleDB.Validation.DoubleValidationStrategies;
+import ua.gorshkov.moduleDB.Validation.SetterClass;
+import ua.gorshkov.moduleDB.Validation.StringValidationStrategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,7 @@ public class Account {
     @Column(name = "start_money_amount")
     private Double startMoneyAmount;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Operation> operationList = new ArrayList<>(); //?? = new ArrayList<>(); ??
 
     @ManyToOne(cascade = CascadeType.ALL)

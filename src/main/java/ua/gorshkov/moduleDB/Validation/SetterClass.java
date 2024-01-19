@@ -1,12 +1,16 @@
-package ua.gorshkov.moduleDB;
+package ua.gorshkov.moduleDB.Validation;
 
-import java.sql.SQLOutput;
+import ua.gorshkov.moduleDB.Entities.Enums.OperationCategories;
+import ua.gorshkov.moduleDB.Validation.DoubleValidationStrategies;
+import ua.gorshkov.moduleDB.Validation.StringValidationStrategies;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class SetterClass {
     private static final Scanner scanner = new Scanner(System.in);
-    private static String cleanString(String string){
+
+    private static String cleanString(String string) {
         string = string.trim();
         string = string.replaceAll("\\s{2,}", " ");
         return string;
@@ -63,7 +67,7 @@ public class SetterClass {
             try {
                 aDouble = scanner.nextDouble();
                 if (Arrays.asList(doubleValidationStrategies).contains(DoubleValidationStrategies.GREATER_OR_EQUAL_ZERO)) {
-                    if(aDouble < 0){
+                    if (aDouble < 0) {
                         throw new RuntimeException("Number less than 0!");
                     }
                 }
@@ -73,5 +77,24 @@ public class SetterClass {
             }
         }
         return aDouble;
+    }
+
+    public static OperationCategories setOperationCategory(String message) {
+        int operationCategory;
+        while (true) {
+            System.out.print(message);
+            try {
+                operationCategory = scanner.nextInt();
+                if (operationCategory == 0) {
+                    return OperationCategories.EXPENSE;
+                } else if (operationCategory == 1) {
+                    return OperationCategories.INCOME;
+                } else {
+                    throw new RuntimeException("Incorrect indication of the type of operation");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

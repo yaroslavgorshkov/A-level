@@ -1,4 +1,4 @@
-package ua.gorshkov.moduleDB;
+package ua.gorshkov.moduleDB.Validation;
 
 public enum StringValidationStrategies {
     NUMERIC_ONLY,
