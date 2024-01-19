@@ -31,12 +31,12 @@ public class Operation {
     @JoinColumn(name = "account_ID")
     private Account account;
 
-    public void setAmountOfMoney() {
+    public void setAmountOfMoneyByOwn() {
         this.amountOfMoney = SetterClass.setDouble("Amount of money = ",
                 DoubleValidationStrategies.GREATER_OR_EQUAL_ZERO);
     }
 
-    public void setCategory() {
+    public void setCategoryByOwn() {
         this.category = SetterClass.setString("Category = ",
                 StringValidationStrategies.CAPITALIZATION,
                 StringValidationStrategies.NOT_EMPTY
@@ -47,9 +47,21 @@ public class Operation {
         this.id = id;
     }
 
-    public void setOperationCategory() {
+    public void setOperationCategory(OperationCategories operationCategory) {
+        this.operationCategory = operationCategory;
+    }
+
+    public void setAmountOfMoney(Double amountOfMoney) {
+        this.amountOfMoney = amountOfMoney;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setOperationCategoryByOwn() {
         this.operationCategory =
-                SetterClass.setOperationCategory("Set operation category: (0 - expense, 1 - income");
+                SetterClass.setOperationCategory("Set operation category: (0 - expense, 1 - income) ");
     }
 
     public void setAccount(Account account) {

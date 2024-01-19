@@ -1,16 +1,15 @@
 package ua.gorshkov.moduleDB;
 
-import ua.gorshkov.moduleDB.DAOPackage.DBOperationHibernateDAO;
 import ua.gorshkov.moduleDB.DBManagersPackage.AccountDBManager;
 import ua.gorshkov.moduleDB.DBManagersPackage.OperationDBManager;
 import ua.gorshkov.moduleDB.DBManagersPackage.UserDBManager;
 import ua.gorshkov.moduleDB.Entities.Account;
 import ua.gorshkov.moduleDB.Entities.Operation;
 import ua.gorshkov.moduleDB.Entities.User;
+import ua.gorshkov.moduleDB.Validation.OperationsValidator;
 import ua.gorshkov.moduleDB.Validation.SetterClass;
 import ua.gorshkov.moduleDB.Validation.StringValidationStrategies;
 
-import java.util.Optional;
 import java.util.Scanner;
 
 public class BankManager {
@@ -25,9 +24,9 @@ public class BankManager {
         System.out.println("Please, register with your personal information.");
         System.out.println("Adding the user:");
         User user = new User();
-        user.setName();
-        user.setSurname();
-        UserDBManager.save(user); // можно добавить счетчик юзеров
+        user.setNameByOwn();
+        user.setSurnameByOwn();
+        UserDBManager.save(user);
         User currentUser = user;
         Account currentAccount = null;
         System.out.println("User was successfully added!");
@@ -52,9 +51,9 @@ public class BankManager {
                 if (currentUser.getAccountList().size() > 1) {
                     System.out.println("Change account - 'change account'");
                 }
-                System.out.println("Delete current account - 'delete account'"); ///!!!
+                System.out.println("Delete current account - 'delete account'");
                 System.out.println("Add operation to the current user`s account - 'add operation'");
-                if (currentAccount.getOperationList().size() > 1) {
+                if (!currentAccount.getOperationList().isEmpty()) {
                     System.out.println("Update last operation info - 'update last operation'");
                     System.out.println("Delete last operation info - 'delete last operation'");
                     System.out.println("Delete all operations info - 'delete all operations'");
@@ -67,70 +66,78 @@ public class BankManager {
             System.out.println("Finish the program - 'finish'");
             System.out.print("Your operation - ");
             String operation = scanner.nextLine();
-            if (operation.equals("add user")) {
-                User newUser = new User();
-                newUser.setName();
-                newUser.setSurname();
-                currentUser = newUser;
-                UserDBManager.save(newUser);
-            } else if (operation.equals("update user")) {
-                currentUser.setName();
-                currentUser.setSurname();
-                UserDBManager.update(currentUser);
-            } else if (operation.equals("change user")) { ///???
-                currentUser = this.changeUser();
-            } else if (operation.equals("delete user")) {
-                UserDBManager.delete(currentUser);
-            } else if (operation.equals("add account")) {
-                Account newAccount = new Account();
-                newAccount.setBankCardNumber();
-                newAccount.setStartMoneyAmount();
-                newAccount.setUser(currentUser);
-                currentAccount = newAccount;
-                UserDBManager.addAccount(currentUser, newAccount);
-            } else if (operation.equals("update account")) {
-                currentAccount.setBankCardNumber();
-                currentAccount.setStartMoneyAmount();
-                AccountDBManager.update(currentAccount);
-            } else if (operation.equals("change account")) { ///???
-                currentAccount = this.changeAccount(currentUser);
-            } else if (operation.equals("delete account")) { ///???
-                AccountDBManager.delete(currentAccount);
-                System.out.println("currentUser.getAccountList() : " + currentUser.getAccountList()); /// LIST! REMOVE !
-                //currentUser = UserDBManager.update(currentUser);
-                if (currentUser.getAccountList().isEmpty()) {
-                    currentAccount = null;
-                } else {
+            if (checkingWhetherTheOperationCanBePerformed(operation, currentUser, currentAccount)) {
+                if (operation.equals("add user")) {
+                    User newUser = new User();
+                    newUser.setNameByOwn();
+                    newUser.setSurnameByOwn();
+                    currentUser = newUser;
+                    UserDBManager.save(newUser);
+                } else if (operation.equals("update user")) {
+                    currentUser.setNameByOwn();
+                    currentUser.setSurnameByOwn();
+                    UserDBManager.update(currentUser);
+                } else if (operation.equals("change user")) { ///???
+                    currentUser = this.changeUser();
                     currentAccount = currentUser.getAccountList().get(0);
+                } else if (operation.equals("delete user")) {
+                    UserDBManager.delete(currentUser);
+                    currentUser = UserDBManager.getAll().get(0);
+                } else if (operation.equals("add account")) {
+                    Account newAccount = new Account();
+                    newAccount.setBankCardNumberByOwn();
+                    newAccount.setStartMoneyAmountByOwn();
+                    currentAccount = newAccount;
+                    UserDBManager.addAccount(currentUser, newAccount);
+                } else if (operation.equals("update account")) {
+                    currentAccount.setBankCardNumberByOwn();
+                    currentAccount.setStartMoneyAmountByOwn();
+                    AccountDBManager.update(currentAccount);
+                } else if (operation.equals("change account")) { ///???
+                    currentAccount = this.changeAccount(currentUser);
+                } else if (operation.equals("delete account")) {
+                    AccountDBManager.delete(currentUser, currentAccount);
+                    if (currentUser.getAccountList().isEmpty()) {
+                        currentAccount = null;
+                    } else {
+                        currentAccount = currentUser.getAccountList().get(0);
+                    }
+                } else if (operation.equals("add operation")) {
+                    Operation newOperation = new Operation();
+                    newOperation.setCategoryByOwn();
+                    newOperation.setOperationCategoryByOwn();
+                    newOperation.setAmountOfMoneyByOwn();
+                    if (OperationsValidator.isOperationValid(currentAccount, newOperation)) {
+                        AccountDBManager.addOperation(currentAccount, newOperation);
+                        OperationsValidator.displayChangesOnAccount(currentAccount, newOperation);
+                    }
+                } else if (operation.equals("update last operation")) {
+                    Operation lastOperation = currentAccount.getOperationList().getLast();
+                    lastOperation.setCategoryByOwn();
+                    lastOperation.setOperationCategoryByOwn();
+                    lastOperation.setAmountOfMoneyByOwn();
+                    OperationDBManager.update(lastOperation);
+                } else if (operation.equals("delete last operation")) {
+                    OperationDBManager.delete(currentAccount, currentAccount.getOperationList().getLast());
+                } else if (operation.equals("delete all operations")) {
+                    int currentOperationListSize = currentAccount.getOperationList().size();
+                    for (int i = 0; i < currentOperationListSize; i++) {
+                        Operation deletingOperation = currentAccount.getOperationList().get(0);
+                        OperationDBManager.delete(currentAccount, deletingOperation);
+                    }
+                } else if (operation.equals("quick info")) {
+                    /// ...
+                } else if (operation.equals("csv extract")) {
+                    /// ...
+                } else if (operation.equals("finish")) {
+                    return;
+                } else {
+                    System.out.println("Unknown operation! Try one more time!");
                 }
-            } else if (operation.equals("add operation")) {
-                Operation newOperation = new Operation();
-                newOperation.setCategory();
-                newOperation.setOperationCategory();
-                newOperation.setAmountOfMoney();
-                AccountDBManager.addOperation(currentAccount, newOperation);
-            } else if (operation.equals("update last operation")) {
-                Operation lastOperation = currentAccount.getOperationList().getLast();
-                lastOperation.setCategory();
-                lastOperation.setOperationCategory();
-                lastOperation.setAmountOfMoney();
-                OperationDBManager.update(lastOperation);
-            } else if (operation.equals("delete last operation")) {
-                Operation lastOperation = currentAccount.getOperationList().getLast();
-                OperationDBManager.delete(lastOperation);
-            } else if (operation.equals("delete all operations")) {
-                int currentOperationListSize = currentAccount.getOperationList().size();
-                for (int i = 0; i < currentOperationListSize; i++) {
-                    Operation deletingOperation = currentAccount.getOperationList().get(0);
-                    OperationDBManager.delete(deletingOperation);
-                }
-            } else if (operation.equals("quick info")) {
-                /// ...
-            } else if (operation.equals("csv extract")) {
-                /// ...
-            } else if (operation.equals("finish")) {
-                return;
+            } else {
+                System.out.println("There is no such operation in the selection of operations!");
             }
+            System.out.println('\n');
         }
     }
 
@@ -165,7 +172,6 @@ public class BankManager {
     }
 
     private Account changeAccount(User user) {
-
         while (true) {
             try {
                 System.out.print("Enter the Bank Card Number to change your account: ");
@@ -182,6 +188,37 @@ public class BankManager {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    private static boolean checkingWhetherTheOperationCanBePerformed(String operation, User user, Account account) {
+        if (operation.equals("change user") && UserDBManager.getAll().size() == 1) {
+            return false;
+        } else if (operation.equals("delete user") && UserDBManager.getAll().size() == 1) {
+            return false;
+        } else if (operation.equals("update account") && user.getAccountList().isEmpty()) {
+            return false;
+        } else if (operation.equals("change account") && user.getAccountList().size() <= 1) {
+            return false;
+        } else if (operation.equals("delete account") && user.getAccountList().isEmpty()) {
+            return false;
+        } else if (operation.equals("add operation") && user.getAccountList().isEmpty()) {
+            return false;
+        } else if (operation.equals("update last operation") && account.getOperationList().isEmpty()
+                && user.getAccountList().isEmpty()) {
+            return false;
+        } else if (operation.equals("delete last operation") && account.getOperationList().isEmpty()
+                && user.getAccountList().isEmpty()) {
+            return false;
+        } else if (operation.equals("delete all operations") && account.getOperationList().isEmpty()
+                && user.getAccountList().isEmpty()) {
+            return false;
+        } else if (operation.equals("quick info") && OperationDBManager.getAll().isEmpty()) {
+            return false;
+        } else if (operation.equals("csv extract") && OperationDBManager.getAll().isEmpty()) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

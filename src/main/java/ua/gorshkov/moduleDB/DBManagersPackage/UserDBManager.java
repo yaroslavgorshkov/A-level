@@ -1,7 +1,10 @@
 package ua.gorshkov.moduleDB.DBManagersPackage;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import ua.gorshkov.moduleDB.DAOPackage.DAO;
-import ua.gorshkov.moduleDB.DAOPackage.DBUserHibernateDAO;
+import ua.gorshkov.moduleDB.DAOPackage.HibernateDAO.DBUserHibernateDAO;
 import ua.gorshkov.moduleDB.Entities.Account;
 import ua.gorshkov.moduleDB.Entities.User;
 
@@ -18,6 +21,7 @@ public class UserDBManager {
     }
     public static void delete(User user) {
         userDAO.delete(user);
+        updateAccountListOnSpecificUser(user);
     }
     public static Optional<User> get(Long id) {
         return userDAO.get(id);
@@ -27,7 +31,30 @@ public class UserDBManager {
     }
 
     public static void addAccount(User user, Account account){
-        user.getAccountList().add(account);
-        update(user);
+        account.setUser(user);
+        AccountDBManager.save(account);
+        updateAccountListOnSpecificUser(user);
+    }
+
+    public static void updateAccountListOnSpecificUser (User user){
+        String currentUserAccountListQuery = "FROM Account a WHERE a.user = :currentUser";
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
+            try {
+                entityManager.getTransaction().begin();
+                List<Account> accountList = entityManager.createQuery(currentUserAccountListQuery, Account.class)
+                        .setParameter("currentUser", user)
+                        .getResultList();
+                user.getAccountList().clear();
+                for (Account account : accountList){
+                    user.getAccountList().add(account);
+                }
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                entityManager.getTransaction().rollback();
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

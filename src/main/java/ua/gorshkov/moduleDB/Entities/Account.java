@@ -33,16 +33,24 @@ public class Account {
     @JoinColumn(name = "user_ID")
     private User user;
 
-    public void setBankCardNumber() {
+    public void setBankCardNumberByOwn() {
         this.bankCardNumber = SetterClass.setString("Bank card number = ",
                 StringValidationStrategies.NUMERIC_ONLY,
                 StringValidationStrategies.WITHOUT_PASSES,
                 StringValidationStrategies.NOT_EMPTY);
     }
 
-    public void setStartMoneyAmount() {
+    public void setBankCardNumber(String bankCardNumber) {
+        this.bankCardNumber = bankCardNumber;
+    }
+
+    public void setStartMoneyAmountByOwn() {
         this.startMoneyAmount = SetterClass.setDouble("Start money amount = ",
                 DoubleValidationStrategies.GREATER_OR_EQUAL_ZERO);
+    }
+
+    public void setStartMoneyAmount(Double startMoneyAmount) {
+        this.startMoneyAmount = startMoneyAmount;
     }
 
     public void setId(Long id) {

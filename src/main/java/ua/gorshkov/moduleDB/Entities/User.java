@@ -28,20 +28,27 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Account> accountList = new ArrayList<>();
 
-    public void setName() {
+    public void setNameByOwn() {
         this.name = SetterClass.setString("User name = ",
                 StringValidationStrategies.ALPHABETIC_ONLY,
                 StringValidationStrategies.CAPITALIZATION,
                 StringValidationStrategies.WITHOUT_PASSES,
                 StringValidationStrategies.NOT_EMPTY);
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setSurname() {
+    public void setSurnameByOwn() {
         this.surname = SetterClass.setString("User surname = ",
                 StringValidationStrategies.ALPHABETIC_ONLY,
                 StringValidationStrategies.CAPITALIZATION,
                 StringValidationStrategies.WITHOUT_PASSES,
                 StringValidationStrategies.NOT_EMPTY);
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public void setId(Long id) {

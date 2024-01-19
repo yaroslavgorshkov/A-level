@@ -1,8 +1,7 @@
 package ua.gorshkov.moduleDB.DBManagersPackage;
 
 import ua.gorshkov.moduleDB.DAOPackage.DAO;
-import ua.gorshkov.moduleDB.DAOPackage.DBAccountHibernateDAO;
-import ua.gorshkov.moduleDB.DAOPackage.DBOperationHibernateDAO;
+import ua.gorshkov.moduleDB.DAOPackage.HibernateDAO.DBOperationHibernateDAO;
 import ua.gorshkov.moduleDB.Entities.Account;
 import ua.gorshkov.moduleDB.Entities.Operation;
 
@@ -17,8 +16,9 @@ public class OperationDBManager {
     public static Operation update(Operation operation) {
         return operationDAO.update(operation);
     }
-    public static void delete(Operation operation) {
+    public static void delete(Account account, Operation operation) {
         operationDAO.delete(operation);
+        AccountDBManager.updateOperationListOnSpecificAccount(account);
     }
     public static Optional<Operation> get(Long id) {
         return operationDAO.get(id);

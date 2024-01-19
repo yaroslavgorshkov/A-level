@@ -1,8 +1,10 @@
 package ua.gorshkov.moduleDB.DBManagersPackage;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import ua.gorshkov.moduleDB.DAOPackage.DAO;
-import ua.gorshkov.moduleDB.DAOPackage.DBAccountHibernateDAO;
-import ua.gorshkov.moduleDB.DAOPackage.DBUserHibernateDAO;
+import ua.gorshkov.moduleDB.DAOPackage.HibernateDAO.DBAccountHibernateDAO;
 import ua.gorshkov.moduleDB.Entities.Account;
 import ua.gorshkov.moduleDB.Entities.Operation;
 import ua.gorshkov.moduleDB.Entities.User;
@@ -18,8 +20,9 @@ public class AccountDBManager {
     public static Account update(Account account) {
         return accountDAO.update(account);
     }
-    public static void delete(Account account) {
+    public static void delete(User user, Account account) {
         accountDAO.delete(account);
+        UserDBManager.updateAccountListOnSpecificUser(user);
     }
     public static Optional<Account> get(Long id) {
         return accountDAO.get(id);
@@ -29,8 +32,31 @@ public class AccountDBManager {
     }
 
     public static void addOperation(Account account, Operation operation){
-        account.getOperationList().add(operation);
-        update(account);
+        operation.setAccount(account);
+        OperationDBManager.save(operation);
+        updateOperationListOnSpecificAccount(account);
+    }
+
+    public static void updateOperationListOnSpecificAccount (Account account){
+        String currentAccountOperationListQuery = "FROM Operation o WHERE o.account = :currentAccount";
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
+            try {
+                entityManager.getTransaction().begin();
+                List<Operation> operationList = entityManager.createQuery(currentAccountOperationListQuery, Operation.class)
+                        .setParameter("currentAccount", account)
+                        .getResultList();
+                account.getOperationList().clear();
+                for (Operation operation : operationList){
+                    account.getOperationList().add(operation);
+                }
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                entityManager.getTransaction().rollback();
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
 

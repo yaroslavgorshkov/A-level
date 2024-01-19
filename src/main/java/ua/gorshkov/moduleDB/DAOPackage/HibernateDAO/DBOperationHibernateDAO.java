@@ -1,20 +1,18 @@
-package ua.gorshkov.moduleDB.DAOPackage;
+package ua.gorshkov.moduleDB.DAOPackage.HibernateDAO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import ua.gorshkov.moduleDB.Entities.Account;
+import ua.gorshkov.moduleDB.DAOPackage.DAO;
 import ua.gorshkov.moduleDB.DBManagersPackage.ConnectionManager;
-import ua.gorshkov.moduleDB.Entities.User;
+import ua.gorshkov.moduleDB.Entities.Operation;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
-public class DBAccountHibernateDAO implements DAO<Account>{
-
+public class DBOperationHibernateDAO implements DAO<Operation> {
     @Override
-    public Account save(Account obj) {
+    public Operation save(Operation obj) {
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
@@ -31,7 +29,7 @@ public class DBAccountHibernateDAO implements DAO<Account>{
     }
 
     @Override
-    public Account update(Account obj) {
+    public Operation update(Operation obj) {
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
@@ -48,33 +46,36 @@ public class DBAccountHibernateDAO implements DAO<Account>{
     }
 
     @Override
-    public void delete(Account obj) {
-        try (Connection connection =
-                     PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM account WHERE id = ?")) {
-
-            // Устанавливаем параметры запроса
-            preparedStatement.setLong(1, obj.getId()); // Предполагаем, что у сущности есть метод getId()
-
-            // Выполняем запрос на удаление
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            // Обрабатываем исключение
-            throw new RuntimeException("Error deleting account", e);
-        }
-    }
-
-    @Override
-    public Optional<Account> get(Long id) {
-        Optional<Account> obj;
+    public void delete(Operation obj) {
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
             try {
                 entityManager.getTransaction().begin();
-                Account account = entityManager.find(Account.class, id);
+                /*entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));*/
+                String hql = "DELETE FROM Operation WHERE id = :entityId";
+                entityManager.createQuery(hql)
+                        .setParameter("entityId", obj.getId())
+                        .executeUpdate();
                 entityManager.getTransaction().commit();
-                obj = Optional.ofNullable(account);
+            } catch (Exception e) {
+                entityManager.getTransaction().rollback();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public Optional<Operation> get(Long id) {
+        Optional<Operation> obj;
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
+            try {
+                entityManager.getTransaction().begin();
+                Operation operation = entityManager.find(Operation.class, id);
+                entityManager.getTransaction().commit();
+                obj = Optional.ofNullable(operation);
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();
                 throw new RuntimeException(e);
@@ -84,21 +85,21 @@ public class DBAccountHibernateDAO implements DAO<Account>{
     }
 
     @Override
-    public List<Account> getAll() {
-        List<Account> accountList;
-        String selectAllQuery = "select a from Account a";
+    public List<Operation> getAll() {
+        List<Operation> operationList;
+        String selectAllQuery = "select o from Operation o";
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
             try {
                 entityManager.getTransaction().begin();
-                accountList = entityManager.createQuery(selectAllQuery, Account.class).getResultList();
+                operationList = entityManager.createQuery(selectAllQuery, Operation.class).getResultList();
                 entityManager.getTransaction().commit();
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();
                 throw new RuntimeException(e);
             }
         }
-        return accountList;
+        return operationList;
     }
 }

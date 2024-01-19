@@ -1,19 +1,20 @@
-package ua.gorshkov.moduleDB.DAOPackage;
+package ua.gorshkov.moduleDB.DAOPackage.HibernateDAO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import ua.gorshkov.moduleDB.DAOPackage.DAO;
 import ua.gorshkov.moduleDB.DBManagersPackage.ConnectionManager;
-import ua.gorshkov.moduleDB.Entities.Operation;
+import ua.gorshkov.moduleDB.Entities.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public class DBOperationHibernateDAO implements DAO<Operation> {
+public class DBUserHibernateDAO implements DAO<User> {
     @Override
-    public Operation save(Operation obj) {
+    public User save(User obj) {
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
             try {
                 entityManager.getTransaction().begin();
@@ -28,7 +29,7 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
     }
 
     @Override
-    public Operation update(Operation obj) {
+    public User update(User obj) {
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
@@ -45,13 +46,13 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
     }
 
     @Override
-    public void delete(Operation obj) {
+    public void delete(User obj) {
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
             try {
                 entityManager.getTransaction().begin();
-                entityManager.remove(obj);
+                entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
                 entityManager.getTransaction().commit();
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();
@@ -61,16 +62,16 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
     }
 
     @Override
-    public Optional<Operation> get(Long id) {
-        Optional<Operation> obj;
+    public Optional<User> get(Long id) {
+        Optional<User> obj;
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
             try {
                 entityManager.getTransaction().begin();
-                Operation operation = entityManager.find(Operation.class, id);
+                User user = entityManager.find(User.class, id);
                 entityManager.getTransaction().commit();
-                obj = Optional.ofNullable(operation);
+                obj = Optional.ofNullable(user);
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();
                 throw new RuntimeException(e);
@@ -80,21 +81,21 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
     }
 
     @Override
-    public List<Operation> getAll() {
-        List<Operation> operationList;
-        String selectAllQuery = "select o from Operation o";
+    public List<User> getAll() {
+        List<User> userList;
+        String selectAllQuery = "select u from User u";
         try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
             EntityManager entityManager = entityManagerFactory.createEntityManager()
         ) {
             try {
                 entityManager.getTransaction().begin();
-                operationList = entityManager.createQuery(selectAllQuery, Operation.class).getResultList();
+                userList = entityManager.createQuery(selectAllQuery, User.class).getResultList();
                 entityManager.getTransaction().commit();
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();
                 throw new RuntimeException(e);
             }
         }
-        return operationList;
+        return userList;
     }
 }
