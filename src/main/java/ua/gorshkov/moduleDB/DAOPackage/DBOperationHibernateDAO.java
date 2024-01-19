@@ -1,6 +1,8 @@
 package ua.gorshkov.moduleDB.DAOPackage;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import ua.gorshkov.moduleDB.DBManagersPackage.ConnectionManager;
 import ua.gorshkov.moduleDB.Entities.Operation;
 
@@ -10,7 +12,9 @@ import java.util.Optional;
 public class DBOperationHibernateDAO implements DAO<Operation> {
     @Override
     public Operation save(Operation obj) {
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.persist(obj);
@@ -25,7 +29,9 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
 
     @Override
     public Operation update(Operation obj) {
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.merge(obj);
@@ -40,7 +46,9 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
 
     @Override
     public void delete(Operation obj) {
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.remove(obj);
@@ -55,7 +63,9 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
     @Override
     public Optional<Operation> get(Long id) {
         Optional<Operation> obj;
-        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 Operation operation = entityManager.find(Operation.class, id);
@@ -73,7 +83,9 @@ public class DBOperationHibernateDAO implements DAO<Operation> {
     public List<Operation> getAll() {
         List<Operation> operationList;
         String selectAllQuery = "select o from Operation o";
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 operationList = entityManager.createQuery(selectAllQuery, Operation.class).getResultList();

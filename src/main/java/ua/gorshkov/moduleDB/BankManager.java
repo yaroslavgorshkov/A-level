@@ -85,6 +85,7 @@ public class BankManager {
                 Account newAccount = new Account();
                 newAccount.setBankCardNumber();
                 newAccount.setStartMoneyAmount();
+                newAccount.setUser(currentUser);
                 currentAccount = newAccount;
                 UserDBManager.addAccount(currentUser, newAccount);
             } else if (operation.equals("update account")) {
@@ -95,6 +96,8 @@ public class BankManager {
                 currentAccount = this.changeAccount(currentUser);
             } else if (operation.equals("delete account")) { ///???
                 AccountDBManager.delete(currentAccount);
+                System.out.println("currentUser.getAccountList() : " + currentUser.getAccountList()); /// LIST! REMOVE !
+                //currentUser = UserDBManager.update(currentUser);
                 if (currentUser.getAccountList().isEmpty()) {
                     currentAccount = null;
                 } else {

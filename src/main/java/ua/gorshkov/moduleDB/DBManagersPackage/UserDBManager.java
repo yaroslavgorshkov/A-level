@@ -28,5 +28,6 @@ public class UserDBManager {
 
     public static void addAccount(User user, Account account){
         user.getAccountList().add(account);
+        update(user);
     }
 }

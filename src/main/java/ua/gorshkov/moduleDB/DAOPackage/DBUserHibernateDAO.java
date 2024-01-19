@@ -29,7 +29,9 @@ public class DBUserHibernateDAO implements DAO<User>{
 
     @Override
     public User update(User obj) {
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.merge(obj);
@@ -44,7 +46,9 @@ public class DBUserHibernateDAO implements DAO<User>{
 
     @Override
     public void delete(User obj) {
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.remove(obj);
@@ -59,7 +63,9 @@ public class DBUserHibernateDAO implements DAO<User>{
     @Override
     public Optional<User> get(Long id) {
         Optional<User> obj;
-        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 User user = entityManager.find(User.class, id);
@@ -77,7 +83,9 @@ public class DBUserHibernateDAO implements DAO<User>{
     public List<User> getAll() {
         List<User> userList;
         String selectAllQuery = "select u from User u";
-        try(EntityManager entityManager = ConnectionManager.getEntityManager()) {
+        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
+            EntityManager entityManager = entityManagerFactory.createEntityManager()
+        ) {
             try {
                 entityManager.getTransaction().begin();
                 userList = entityManager.createQuery(selectAllQuery, User.class).getResultList();

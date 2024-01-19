@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString
+@ToString(exclude = "accountList")
 @Entity
 @Table(name = "users")
 public class User {

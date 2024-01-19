@@ -30,6 +30,7 @@ public class AccountDBManager {
 
     public static void addOperation(Account account, Operation operation){
         account.getOperationList().add(operation);
+        update(account);
     }
 }
 

@@ -27,7 +27,7 @@ public class Operation {
     @Column(name = "category")
     private String category;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "account_ID")
     private Account account;
 

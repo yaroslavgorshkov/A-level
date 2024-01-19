@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString
+@ToString(exclude = "operationList")
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -27,9 +27,9 @@ public class Account {
     private Double startMoneyAmount;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Operation> operationList = new ArrayList<>(); //?? = new ArrayList<>(); ??
+    private List<Operation> operationList = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_ID")
     private User user;
 
