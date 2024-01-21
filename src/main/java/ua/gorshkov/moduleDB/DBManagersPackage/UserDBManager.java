@@ -21,7 +21,6 @@ public class UserDBManager {
     }
     public static void delete(User user) {
         userDAO.delete(user);
-        updateAccountListOnSpecificUser(user);
     }
     public static Optional<User> get(Long id) {
         return userDAO.get(id);

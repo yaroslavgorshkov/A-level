@@ -4,7 +4,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import ua.gorshkov.moduleDB.DAOPackage.DAO;
+import ua.gorshkov.moduleDB.DBManagersPackage.AccountDBManager;
 import ua.gorshkov.moduleDB.DBManagersPackage.ConnectionManager;
+import ua.gorshkov.moduleDB.DBManagersPackage.OperationDBManager;
+import ua.gorshkov.moduleDB.Entities.Account;
+import ua.gorshkov.moduleDB.Entities.Operation;
 import ua.gorshkov.moduleDB.Entities.User;
 
 import java.util.List;
@@ -52,7 +56,14 @@ public class DBUserHibernateDAO implements DAO<User> {
         ) {
             try {
                 entityManager.getTransaction().begin();
-                entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
+                int sizeOfAccountList = obj.getAccountList().size();
+                for (int  i = 0; i < sizeOfAccountList; i++) {
+                    AccountDBManager.delete(obj, obj.getAccountList().get(0));
+                }
+                String hql = "DELETE FROM User WHERE id = :entityId";
+                entityManager.createQuery(hql)
+                        .setParameter("entityId", obj.getId())
+                        .executeUpdate();
                 entityManager.getTransaction().commit();
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();

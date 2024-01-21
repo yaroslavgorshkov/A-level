@@ -57,8 +57,9 @@ public class DBAccountHibernateDAO implements DAO<Account> {
         ) {
             try {
                 entityManager.getTransaction().begin();
-                for (Operation operation : obj.getOperationList()) {
-                    OperationDBManager.delete(obj, operation);
+                int sizeOfOperationList = obj.getOperationList().size();
+                for (int  i = 0; i < sizeOfOperationList; i++) {
+                    OperationDBManager.delete(obj, obj.getOperationList().get(0));
                 }
                 String hql = "DELETE FROM Account WHERE id = :entityId";
                 entityManager.createQuery(hql)

@@ -7,6 +7,8 @@ import ua.gorshkov.moduleDB.Validation.DoubleValidationStrategies;
 import ua.gorshkov.moduleDB.Entities.Enums.OperationCategories;
 import ua.gorshkov.moduleDB.Validation.SetterClass;
 import ua.gorshkov.moduleDB.Validation.StringValidationStrategies;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @ToString
@@ -30,6 +32,15 @@ public class Operation {
     @ManyToOne
     @JoinColumn(name = "account_ID")
     private Account account;
+
+    @Column(name = "creation_time")
+    private String creationTime;
+
+    public Operation() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d-H");
+        this.creationTime = currentTime.format(formatter);
+    }
 
     public void setAmountOfMoneyByOwn() {
         this.amountOfMoney = SetterClass.setDouble("Amount of money = ",
@@ -63,6 +74,10 @@ public class Operation {
         this.operationCategory =
                 SetterClass.setOperationCategory("Set operation category: (0 - expense, 1 - income) ");
     }
+
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
+    } // delete!!!
 
     public void setAccount(Account account) {
         this.account = account;
