@@ -58,7 +58,8 @@ public class DBUserHibernateDAO implements DAO<User> {
                 entityManager.getTransaction().begin();
                 int sizeOfAccountList = obj.getAccountList().size();
                 for (int  i = 0; i < sizeOfAccountList; i++) {
-                    AccountDBManager.delete(obj, obj.getAccountList().get(0));
+                    Account deletingAccount = obj.getAccountList().get(0);
+                    AccountDBManager.delete(obj, deletingAccount);
                 }
                 String hql = "DELETE FROM User WHERE id = :entityId";
                 entityManager.createQuery(hql)

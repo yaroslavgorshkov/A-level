@@ -31,8 +31,4 @@ public class OperationDBManager {
     public static Optional<Operation> get(Long id) {
         return operationDAO.get(id);
     }
-
-    public static List<Operation> getAll() {
-        return operationDAO.getAll();
-    }
 }

@@ -77,7 +77,7 @@ public class Operation {
 
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
-    } // delete!!!
+    }
 
     public void setAccount(Account account) {
         this.account = account;

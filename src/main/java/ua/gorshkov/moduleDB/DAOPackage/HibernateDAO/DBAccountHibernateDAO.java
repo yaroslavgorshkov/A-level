@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import ua.gorshkov.moduleDB.DAOPackage.DAO;
-import ua.gorshkov.moduleDB.DBManagersPackage.ConnectionsManager;
 import ua.gorshkov.moduleDB.DBManagersPackage.OperationDBManager;
 import ua.gorshkov.moduleDB.Entities.Account;
 import ua.gorshkov.moduleDB.DBManagersPackage.ConnectionManager;
