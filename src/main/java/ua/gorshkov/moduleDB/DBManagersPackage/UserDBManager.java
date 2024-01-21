@@ -37,9 +37,7 @@ public class UserDBManager {
 
     public static void updateAccountListOnSpecificUser (User user){
         String currentUserAccountListQuery = "FROM Account a WHERE a.user = :currentUser";
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 List<Account> accountList = entityManager.createQuery(currentUserAccountListQuery, Account.class)

@@ -17,9 +17,7 @@ import java.util.Optional;
 public class DBUserHibernateDAO implements DAO<User> {
     @Override
     public User save(User obj) {
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-        EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.persist(obj);
@@ -34,9 +32,7 @@ public class DBUserHibernateDAO implements DAO<User> {
 
     @Override
     public User update(User obj) {
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.merge(obj);
@@ -51,9 +47,7 @@ public class DBUserHibernateDAO implements DAO<User> {
 
     @Override
     public void delete(User obj) {
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 int sizeOfAccountList = obj.getAccountList().size();
@@ -76,9 +70,7 @@ public class DBUserHibernateDAO implements DAO<User> {
     @Override
     public Optional<User> get(Long id) {
         Optional<User> obj;
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 User user = entityManager.find(User.class, id);
@@ -96,9 +88,7 @@ public class DBUserHibernateDAO implements DAO<User> {
     public List<User> getAll() {
         List<User> userList;
         String selectAllQuery = "select u from User u";
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 userList = entityManager.createQuery(selectAllQuery, User.class).getResultList();

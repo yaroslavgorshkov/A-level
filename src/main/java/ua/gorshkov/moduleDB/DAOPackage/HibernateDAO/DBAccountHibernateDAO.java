@@ -17,9 +17,7 @@ public class DBAccountHibernateDAO implements DAO<Account> {
 
     @Override
     public Account save(Account obj) {
-        try (EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-             EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.persist(obj);
@@ -34,9 +32,7 @@ public class DBAccountHibernateDAO implements DAO<Account> {
 
     @Override
     public Account update(Account obj) {
-        try (EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-             EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 entityManager.merge(obj);
@@ -51,9 +47,7 @@ public class DBAccountHibernateDAO implements DAO<Account> {
 
     @Override
     public void delete(Account obj) {
-        try (EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-             EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 int sizeOfOperationList = obj.getOperationList().size();
@@ -75,9 +69,7 @@ public class DBAccountHibernateDAO implements DAO<Account> {
     @Override
     public Optional<Account> get(Long id) {
         Optional<Account> obj;
-        try (EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-             EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 Account account = entityManager.find(Account.class, id);
@@ -95,9 +87,7 @@ public class DBAccountHibernateDAO implements DAO<Account> {
     public List<Account> getAll() {
         List<Account> accountList;
         String selectAllQuery = "select a from Account a";
-        try (EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-             EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 accountList = entityManager.createQuery(selectAllQuery, Account.class).getResultList();

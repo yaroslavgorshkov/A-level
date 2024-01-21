@@ -42,9 +42,7 @@ public class AccountDBManager {
 
     public static void updateOperationListOnSpecificAccount (Account account){
         String currentAccountOperationListQuery = "FROM Operation o WHERE o.account = :currentAccount";
-        try(EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my-persistence-unit");
-            EntityManager entityManager = entityManagerFactory.createEntityManager()
-        ) {
+        try (EntityManager entityManager = ConnectionManager.getEntityManager()) {
             try {
                 entityManager.getTransaction().begin();
                 List<Operation> operationList = entityManager.createQuery(currentAccountOperationListQuery, Operation.class)
